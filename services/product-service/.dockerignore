@@ -1,0 +1,24 @@
+# Jangan masukin node_modules biar build image lebih kecil & cepat
+node_modules
+npm-debug.log
+
+# Jangan bawa file konfigurasi local yang sensitif
+.env
+.env.local
+.env.*.local
+
+# Cache, log, dan build file lokal
+*.log
+.cache
+coverage
+
+# Editor & OS file
+.DS_Store
+*.swp
+*.swo
+.idea
+.vscode
+
+# Git
+.git
+.gitignore

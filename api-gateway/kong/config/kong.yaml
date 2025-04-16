@@ -1,0 +1,136 @@
+_format_version: '3.0'
+_transform: true
+consumers:
+  - custom_id: jwt-user
+    jwt_secrets:
+      - algorithm: RS256
+        key: MRCcYJX5r97Uytb0FkhRLH0urzzumfRj
+        rsa_public_key: |-
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0D65yLq+Q1uqjd9j/+Wx
+          GL4msWZSpYpO901fmJX7bO7AjXbMTPrCOYHmD6zSDODKN5f4a6IU5eI/aTnOiPNU
+          zCETorwD+kGRPl23Kfv6r/9u9oRoZdm8DgHULV8Te1AYWxcskoAGhDtKeVAu4hFA
+          bv7WdPyrW4YAOIHx87c2PT/G8G9B0CW+EYhD2YU2i8StdR/USYNVcONumAOuJDls
+          cYwz8+puE/m+4VKNqnojckeCoCvfYN9TkRlN7H06eD3H9A5Xi+iPdOOb/e2I6WUV
+          Dnj9+0efaVVgVtPBWUlfV9r/bNVC8NPKxlhYX85igRGxuTIqGmxQWuPJOFkaFF0s
+          GwIDAQAB
+          -----END PUBLIC KEY-----
+        secret: |-
+          VSZZgCvvv5iG4yXaSQMBYWzFJ1olgXuK
+    username: jwt-consumer
+plugins:
+  - config:
+      minute: 100
+      policy: local
+    name: rate-limiting
+    service: auth-service
+  - config:
+      minute: 100
+      policy: local
+    name: rate-limiting
+    service: user-service
+  - config:
+      minute: 100
+      policy: local
+    name: rate-limiting
+    service: product-service
+  - config:
+      minute: 100
+      policy: local
+    name: rate-limiting
+    service: order-service
+  - config:
+      minute: 100
+      policy: local
+    name: rate-limiting
+    service: payment-service
+  - config:
+      minute: 100
+      policy: local
+    name: rate-limiting
+    service: notification-service
+  - config:
+      key_claim_name: iss
+      secret_is_base64: false
+    name: jwt
+    service: user-service
+  - config:
+      key_claim_name: iss
+      secret_is_base64: false
+    name: jwt
+    service: product-service
+  - config:
+      key_claim_name: iss
+      secret_is_base64: false
+    name: jwt
+    service: order-service
+  - config:
+      key_claim_name: iss
+      secret_is_base64: false
+    name: jwt
+    service: payment-service
+  - config:
+      key_claim_name: iss
+      secret_is_base64: false
+    name: jwt
+    service: notification-service
+  - config:
+      per_consumer: true
+      status_code_metrics: true
+      latency_metrics: true
+      bandwidth_metrics: true
+    name: prometheus
+services:
+  - host: host.docker.internal
+    name: auth-service
+    path: /auth
+    port: 6002
+    protocol: http
+    routes:
+      - name: auth-routes
+        paths:
+          - /auth
+  - host: host.docker.internal
+    name: user-service
+    path: /users
+    port: 6006
+    protocol: http
+    routes:
+      - name: user-routes
+        paths:
+          - /users
+  - host: host.docker.internal
+    name: product-service
+    path: /products
+    port: 6001
+    protocol: http
+    routes:
+      - name: product-routes
+        paths:
+          - /products
+  - host: host.docker.internal
+    name: order-service
+    path: /orders
+    port: 6005
+    protocol: http
+    routes:
+      - name: order-routes
+        paths:
+          - /orders
+  - host: host.docker.internal
+    name: payment-service
+    path: /payments
+    port: 6003
+    protocol: http
+    routes:
+      - name: payment-routes
+        paths:
+          - /payments
+  - host: host.docker.internal
+    name: notification-service
+    port: 6004
+    protocol: http
+    routes:
+      - name: notification-routes
+        paths:
+          - /notifications

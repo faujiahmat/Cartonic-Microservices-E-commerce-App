@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  kong-database:
+    image: postgres:13
+    container_name: ${KONG_CONTAINER_NAME}
+    restart: always
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kongpass
+      POSTGRES_DB: kong
+    ports:
+      - 5432:5432
+    networks:
+      - kong-net
+    volumes:
+      - kong-db-data:/var/lib/postgresql/data
+
+  kong-migrations:
+    image: kong:3.9
+    container_name: kong-migrations
+    depends_on:
+      - kong-database
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kongpass
+      KONG_PG_DATABASE: kong
+    command: kong migrations bootstrap
+    networks:
+      - kong-net
+
+  kong:
+    image: kong:3.9
+    container_name: kong
+    restart: always
+    depends_on:
+      - kong-migrations
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kongpass
+      KONG_PG_DATABASE: kong
+      KONG_ADMIN_GUI_LISTEN: 0.0.0.0:8002
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_PROXY_ACCESS_LOG: /var/log/kong/access.log
+      KONG_PROXY_ERROR_LOG: /var/log/kong/error.log
+      KONG_ADMIN_ACCESS_LOG: /var/log/kong/admin_access.log
+      KONG_ADMIN_ERROR_LOG: /var/log/kong/admin_error.log
+    ports:
+      - '8000:8000'
+      - '8443:8443'
+      - '8001:8001'
+      - '8002:8002'
+    networks:
+      - kong-net
+    volumes:
+      - ./logs:/var/log/kong
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yaml:/etc/prometheus/prometheus.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - '9090:9090'
+    networks:
+      - kong-net
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./monitoring/grafana.ini:/etc/grafana/grafana.ini
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - kong-net
+
+networks:
+  kong-net:
+
+volumes:
+  kong-db-data:

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022", // Target output ECMAScript version
+    "module": "CommonJS", // Module system (CommonJS untuk Node.js)
+    "rootDir": "src", // Folder kode sumber
+    "outDir": "dist", // Folder hasil build
+    "strict": true, // Aktifkan strict mode untuk kode lebih aman
+    "noImplicitAny": true, // Hindari penggunaan `any` secara implisit
+    "moduleResolution": "Node", // Resolusi modul untuk Node.js
+    "esModuleInterop": true, // Interoperabilitas yang lebih baik dengan import/export ES6
+    "forceConsistentCasingInFileNames": true, // Hindari masalah perbedaan casing file
+    "skipLibCheck": true, // Lewati pemeriksaan tipe dalam `node_modules`
+    "resolveJsonModule": true, // Dukung import file JSON
+    "noUnusedLocals": true, // Periksa variabel lokal yang tidak digunakan
+    "noUnusedParameters": true, // Periksa parameter fungsi yang tidak digunakan
+    "noFallthroughCasesInSwitch": true, // Hindari kesalahan pada switch case
+    "sourceMap": true, // Aktifkan source maps untuk debugging
+    "declaration": true // Hasilkan file `.d.ts` untuk TypeScript declarations,
+  },
+  "include": ["src"], // File yang disertakan dalam proyek
+  "exclude": ["node_modules", "dist"] // Folder yang tidak dikompilasi
+}

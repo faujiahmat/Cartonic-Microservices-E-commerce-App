@@ -1,0 +1,8 @@
+# Kong
+api-gateway/kong/public.pem
+
+# Ignore node_modules, dist, .env, and logs for all services
+services/**/node_modules/
+services/**/dist/
+services/**/.env
+services/**/logs/
