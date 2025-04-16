@@ -8,7 +8,7 @@ Cartonic adalah proyek dummy e-commerce modern yang dibangun dengan arsitektur *
 
 - [🛒 Cartonic - Microservices E-commerce App](#🛒-cartonic---microservices-e-commerce-app)
 - [🚀 Fitur Utama](#🚀-fitur-utama)
-- [🖼️ Screenshot / Demo](#🖼️-screenshot--demo)
+- [📑 Architecture Diagram](#📑-architecture-diagram)
 - [🧾 Struktur Proyek](#🧾-struktur-proyek)
 - [💻 Apa yang dibutuhkan?](#💻-apa-yang-dibutuhkan)
 - [⚙️ Cara Menjalankan](#⚙️-cara-menjalankan)
@@ -33,11 +33,9 @@ Cartonic adalah proyek dummy e-commerce modern yang dibangun dengan arsitektur *
 
 ---
 
-## 🖼️ Screenshot / Demo
+## 📑 Architecture Diagram
 
-> (Tambahkan gambar atau diagram arsitektur di sini. Contoh:)
-
-![architecture-diagram](docs/cartonic-architecture.png)
+![architecture-diagram](docs/microservice-cartonic.jpg)
 
 ---
 
@@ -133,6 +131,7 @@ Kong Gateway berjalan di:
 - **Docker** + **Docker Compose**
 - **Kong API Gateway**
 - **Prometheus** + **Grafana** (Monitoring)
+- **Sentry** (Error Monitoring)
 - **RabbitMQ** (Message Broker)
 
 ---
