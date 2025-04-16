@@ -1,6 +1,9 @@
 # Kong
 api-gateway/kong/public.pem
 
+# Monitoring
+api-gateway/logs/
+
 # Ignore node_modules, dist, .env, and logs for all services
 services/**/node_modules/
 services/**/dist/
